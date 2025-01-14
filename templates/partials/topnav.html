@@ -1,0 +1,186 @@
+<!-- Internal CSS -->
+<style>
+    .card-header {
+        font-size: 1.4rem;
+        font-weight: bold;
+        background: linear-gradient(90deg, #2c3e50, #34495e); /* Dark gradient */
+        border-bottom: 3px solid #138496;
+    }
+
+    .card-body h3 {
+        font-weight: bold;
+        color: #333;
+    }
+
+    /* Marquee Styling */
+    .marquee {
+        font-size: 1.3rem;
+        color: #333;
+        font-weight: bold;
+        animation: scroll 12s linear infinite;
+    }
+
+    @keyframes scroll {
+        from {
+            transform: translateX(100%);
+        }
+        to {
+            transform: translateX(-100%);
+        }
+    }
+
+    /* Card Styling */
+    .my-card {
+        background: #ffffff;
+        border: none;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-radius: 8px;
+    }
+
+    .my-card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .my-card h4 {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #333;
+        text-transform: uppercase;
+    }
+
+    .my-card h3 {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #2c3e50;
+    }
+
+    .fas {
+        margin-left: 8px;
+        color: #5cb85c;
+    }
+
+    /* Layout Redesign */
+    .statistics-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+    }
+
+    .info-box {
+        background: #f1f8e9;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .scrolling-text-container {
+        width: 100%;
+        height: 50px;
+        overflow: hidden;
+        position: relative;
+        display: flex;
+        align-items: center;
+        background-color: #ffffff;
+        border-radius: 5px;
+    }
+
+    .scrolling-text {
+        position: absolute;
+        white-space: nowrap;
+        animation: scroll-text 10s linear infinite;
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #555;
+    }
+
+    @keyframes scroll-text {
+        from {
+            transform: translateX(100%);
+        }
+        to {
+            transform: translateX(-100%);
+        }
+    }
+</style>
+
+<!-- Topside -->
+<div class="container">
+    <div class="row mt-4">
+        <!-- Information Box (Left) -->
+        <div class="col-md-4 mb-3">
+            <div class="info-box">
+                <h3 class="card-header text-center text-white">Information</h3>
+                <div class="card-body">
+                    {% if items %}
+                    <a class="btn" href="{% url 'predict-demand' items.0.pk %}" style="background-color: #16a085; color: white; border-radius: 5px; padding: 5px 12px;">
+                        Predict
+                    </a>
+                    {% else %}
+                    <p>No items available.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics Box (Right) -->
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header text-white text-center">
+                    Statistics Overview
+                </div>
+                <div class="card-body">
+                    <div class="statistics-container">
+                        <!-- Staff Card (Clickable Link) -->
+                        <a href="{% url 'dashboard-staff' %}" class="text-decoration-none">
+                            <div class="my-card text-center p-3 shadow">
+                                <h4>User</h4>
+                                <h3>{{ workers_count }}</h3>
+                            </div>
+                        </a>
+
+                        <!-- Products Card (Clickable Link) -->
+                        <a href="{% url 'dashboard-product' %}" class="text-decoration-none">
+                            <div class="my-card text-center p-3 shadow">
+                                <h4>Products</h4>
+                                <h3>{{ products_count }}</h3>
+                            </div>
+                        </a>
+
+                        <!-- Staff Requests Card (Clickable Link) -->
+                        <a href="{% url 'dashboard-order' %}" class="text-decoration-none">
+                            <div class="my-card text-center p-3 shadow">
+                                <h4>User Requests</h4>
+                                <h3>{{ orders_count }}</h3>
+                            </div>
+                        </a>
+                        <a href="{% url 'dashboard-notifications' %}" class="text-decoration-none">
+                            <div class="my-card text-center p-3 shadow">
+                                <h4>Notifications</h4>
+                                <h3>{{ notifications_count }}</h3>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function addNewInfo() {
+        const inputField = document.getElementById('new-info-input');
+        const infoDisplay = document.getElementById('info-display');
+
+        const newInfo = inputField.value.trim();
+
+        if (newInfo) {
+            infoDisplay.innerText = newInfo; 
+            inputField.value = '';
+        } else {
+            alert('Please enter some information!');
+        }
+    }
+</script>
+<!-- End Topside -->

@@ -1,0 +1,12 @@
+id,name,quantity,category,price_each,supplier,date
+15,Lenovo laptop111,1024,Electronics,150000.00,Hari,2023-03-23
+16,Samsung Galaxy A34,48,Electronics,200000.00,Krishna,2023-01-05
+19,momo,1242,Food,100.00,N/A,2023-06-29
+21,abcdaugif',123,Stationary,5534,N/A,2025-01-10
+22,Ishan Mishra,1232765,Food,5534,N/A,2025-01-10
+23,abcdaugif',123,Stationary,5534,N/A,2025-01-10
+24,abcdaugif',5,Electronics,5534,N/A,2025-01-11
+25,fan,15000,Electronics,250,hari krishna,2025-01-11
+26,Redmi mobile,55,Electronics,12500,ram electronics,2025-01-11
+27,vivo mobile,2504,Electronics,22300,N/A,2025-01-11
+28,oppo mobile,1448,Electronics,1250000,arun elec,2025-01-12

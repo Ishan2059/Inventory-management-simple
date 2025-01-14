@@ -1,0 +1,99 @@
+{% extends 'partials/base.html' %}
+{% block title %} Profile Update Page {% endblock %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <!-- Profile Update Card -->
+        <div class="col-md-8">
+            <div class="card shadow-lg border-light rounded">
+                <div class="card-header" style="background: linear-gradient(90deg, #2c3e50, #34495e); color: white;">
+                    <h4 class="mb-0">Update Profile</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <!-- Left Column: Profile Info Form -->
+                        <div class="col-md-12">
+                            <h5 class="font-weight-bold text-dark">Update Your Profile Information</h5>
+                            <hr class="my-4">
+                            <form action="" method="POST" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                {{ user_form|crispy }}
+                                {{ profile_form|crispy }}
+                                <div class="text-center">
+                                    <input class="w-50" type="submit" value="Update" style="background-color:#2c3e50; border: none; font-size: 1em; padding: 12px; border-radius: 5px; color: white;">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Profile Update Card -->
+    </div>
+</div>
+
+{% endblock %}
+
+<style>
+    body {
+        background-color: #ecf0f1; /* Light background color */
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .container {
+        max-width: 800px;
+        margin-top: 50px;
+    }
+
+    .card {
+        border: none;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .card-header {
+        background: linear-gradient(90deg, #2c3e50, #34495e);
+        color: white;
+        padding: 20px;
+    }
+
+    .card-body {
+        padding: 30px;
+        background-color: #fff;
+    }
+
+    h4 {
+        font-size: 1.6em;
+        font-weight: bold;
+    }
+
+    .btn-info {
+        background-color: #2980b9;
+        border: none;
+        font-size: 1em;
+        padding: 12px;
+        border-radius: 5px;
+    }
+
+    .btn-info:hover {
+        background-color: #3498db;
+    }
+
+    .text-dark {
+        color: #2c3e50 !important; /* Updated text color */
+    }
+
+    .hr {
+        border: 0;
+        height: 1px;
+        background-color: #ecf0f1;
+    }
+
+    .form-control {
+        border-radius: 5px;
+        font-size: 1em;
+        padding: 10px;
+    }
+</style>

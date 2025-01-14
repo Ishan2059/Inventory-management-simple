@@ -1,0 +1,93 @@
+{% extends 'partials/base.html' %}
+{% block title %} Product Page {% endblock %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+{% include 'partials/topnav.html' %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            {% for message in messages %}
+            {% if message %}
+            <div class="alert alert-{{ message.tags }} mb-3">
+                {{ message }}
+            </div>
+            {% endif %}
+            {% endfor %}
+            <div class="card shadow-lg border-light rounded">
+                <div class="card-header" style="background: linear-gradient(90deg, #2c3e50, #34495e); color: white;">
+                    <h4 class="mb-0">Add Products</h4>
+                </div>
+                <div class="card-body">
+                    <form action="" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <!-- Add Product Button with Custom Color -->
+                        <input class="btn" type="submit" value="Add Product" style="background-color: #2c3e50; color: white; border-radius: 5px; width: 100%; padding: 12px;">
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="card shadow-lg border-light rounded">
+                <div class="card-header" style="background: linear-gradient(90deg, #2c3e50, #34495e); color: white;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0">Product List</h4>
+                        <form method="get" class="mb-3 d-flex">
+                            <div class="input-group">
+                                <select name="sort" class="form-select">
+                                    <option value="name" {% if sort_option == 'name' %}selected{% endif %}>Name</option>
+                                    <option value="quantity" {% if sort_option == 'quantity' %}selected{% endif %}>Quantity</option>
+                                    <option value="price_each" {% if sort_option == 'price_each' %}selected{% endif %}>Price</option>
+                                </select>
+                                <button type="submit" class="btn btn-dark">Sort</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table class="table bg-white">
+                        <thead style="background: linear-gradient(90deg, #2c3e50, #34495e); color: white;">
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Category</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Price Each (NPR)</th>
+                                <th scope="col">Supplier</th>
+                                <th scope="col">Image</th>
+                                <th scope="col">Activity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in items %}
+                            <tr>
+                                <td>{{ item.name }}</td>
+                                <td>{{ item.category }}</td>
+                                <td>{{ item.quantity }}</td>
+                                <td>{{ item.price_each }}</td>
+                                <td>{{ item.supplier }}</td>
+                                <td>
+                                    {% if item.image %}
+                                        <img src="{{ item.image.url }}" alt="{{ item.name }}" style="width: 50px; height: 50px;">
+                                    {% else %}
+                                        No Image
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a class="btn" href="{% url 'dashboard-product-update' item.id %}" style="background-color: #2c3e50; color: white; border-radius: 5px; padding: 5px 12px;">Edit</a>
+                                    <a class="btn" href="{% url 'dashboard-product-delete' item.id %}" style="background-color: #e74c3c; color: white; border-radius: 5px; padding: 5px 12px;">Delete</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <a href="{% url 'download-product-report' %}" class="btn btn-success mb-3" style="border-radius: 5px;">
+                    Download Report
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,208 @@
+{% extends "partials/base.html" %}
+{% block title %} Home Page {% endblock %}
+
+{% block content %}
+{% if user.is_authenticated and user.is_staff and user.is_superuser %}
+{% include 'partials/topnav.html' %}
+
+<!-- Graphs Container -->
+<div class="container">
+    <div class="row my-5">
+        <!-- First Graph Column -->
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm bg-light">
+                <div class="card-header bg-info text-white">
+                    <h5>Total orders (Pie Chart)</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="myChart1" width="400" height="300"></canvas>
+                    <script>
+                        var ctx = document.getElementById('myChart1').getContext('2d');
+                        var myChart1 = new Chart(ctx, {
+                            type: 'pie',
+                            data: {
+                                labels: [{% for order in aggregated_orders %}'{{ order.Product__name }}'{% if not forloop.last %}, {% endif %}{% endfor %}],
+                        datasets: [{
+                            label: 'Orders',
+                            data: [{% for order in aggregated_orders %}{{ order.total_quantity }}{% if not forloop.last %}, {% endif %} {% endfor %}],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)',
+                            'rgba(201, 203, 207, 1)',
+                            'rgba(255, 87, 51, 1)',
+                            'rgba(0, 204, 102, 1)',
+                            'rgba(255, 99, 71, 1)',
+                            'rgba(0, 123, 255, 1)',
+                            'rgba(255, 165, 0, 1)',
+                            'rgba(0, 255, 255, 1)',
+                            'rgba(75, 0, 130, 1)',
+                            'rgba(255, 69, 0, 1)',
+                            'rgba(50, 205, 50, 1)',
+                        ],
+                            borderColor: [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'rgba(255, 159, 64, 1)',
+                                'rgba(201, 203, 207, 1)',
+                                'rgba(255, 87, 51, 1)',
+                                'rgba(0, 204, 102, 1)',
+                                'rgba(255, 99, 71, 1)',
+                                'rgba(0, 123, 255, 1)',
+                                'rgba(255, 165, 0, 1)',
+                                'rgba(0, 255, 255, 1)',
+                                'rgba(75, 0, 130, 1)',
+                                'rgba(255, 69, 0, 1)',
+                                'rgba(50, 205, 50, 1)',
+                            ],
+                                borderWidth: 3
+
+                                }]
+                            },
+                        options: {
+                            responsive: true,
+                                plugins: {
+                                legend: {
+                                    position: 'top',
+                                    },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(tooltipItem) {
+                                            return tooltipItem.label + ": " + tooltipItem.raw;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+        <!-- Second Graph Column -->
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm bg-light">
+                <div class="card-header bg-info text-white">
+                    <h5>Products Present(Bar Chart)</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="myChart" width="400" height="300"></canvas>
+                    <script>
+                        var ctx = document.getElementById('myChart').getContext('2d');
+                        var myChart = new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: [{% for Product in products %} '{{ Product.name }}', {% endfor %}],
+                        datasets: [{
+                            label: 'Products',
+                            data: [{% for Product in products %} {{ Product.quantity }}, {% endfor %}],
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'rgba(255, 159, 64, 1)'
+                            ],
+                                borderColor: [
+                                    'rgba(255, 99, 132, 1)',
+                                    'rgba(54, 162, 235, 1)',
+                                    'rgba(255, 206, 86, 1)',
+                                    'rgba(75, 192, 192, 1)',
+                                    'rgba(153, 102, 255, 1)',
+                                    'rgba(255, 159, 64, 1)'
+                                ],
+                                    borderWidth: 1
+                                }]
+                            },
+                        options: {
+                            responsive: true,
+                                scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true
+                                    }
+                                }]
+                            },
+                            plugins: {
+                                tooltip: {
+                                    callbacks: {
+                                        label: function (tooltipItem) {
+                                            return tooltipItem.label + ": " + tooltipItem.raw;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Graphs -->
+
+{% else %}
+{% include 'dashboard/staff_index.html' %}
+{% endif %}
+{% endblock %}
+
+<style>
+    /* General container for the entire content */
+    .container {
+        margin-top: 30px;
+        padding: 30px;
+        background-color: #f0f4f8;
+        border-radius: 12px;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .row {
+        margin-top: 20px;
+    }
+
+    .col-md-6 {
+        padding: 15px;
+    }
+
+    .bg-light.card {
+        background-color: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        transition: all 0.3s ease;
+    }
+
+    .bg-light.card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+    }
+
+    .card-header {
+        background-color: #17a2b8;
+        color: white;
+        font-size: 1.3rem;
+        font-weight: bold;
+        padding: 15px;
+        border-radius: 12px 12px 0 0;
+    }
+
+    .card-body {
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 0 0 12px 12px;
+    }
+
+    canvas {
+        max-width: 100% !important;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+</style>

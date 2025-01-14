@@ -1,0 +1,54 @@
+{% extends 'partials/base.html' %}
+{% block title %} Staff Page {% endblock %}
+
+{% block content %}
+{% include 'partials/topnav.html' %}
+<!-- Profile Section -->
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg border-light rounded">
+                <div class="card-header" style="background: linear-gradient(90deg, #2c3e50, #34495e); color: white;">
+                    <h4 class="mb-0">Profile Page</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <!-- Left Column: Profile Info -->
+                        <div class="col-md-8">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="font-weight-bold">Profile Information</h5>
+                            </div>
+                            <hr class="my-3">
+                            <table class="table table-bordered table-hover table-striped">
+                                <tbody>
+                                    <tr>
+                                        <th scope="row" class="font-weight-bold">Name</th>
+                                        <td>{{ workers.username }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="font-weight-bold">Email</th>
+                                        <td>{{ workers.email }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="font-weight-bold">Phone</th>
+                                        <td>{{ workers.profile.phone }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="font-weight-bold">Address</th>
+                                        <td>{{ workers.profile.address }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Right Column: Profile Image -->
+                        <div class="col-md-4 text-center">
+                            <img class="img-fluid rounded-circle shadow-sm" src="{{ workers.profile.images.url }}" alt="Profile Image" style="max-width: 180px; border: 4px solid #ddd;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

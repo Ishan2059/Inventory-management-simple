@@ -1,0 +1,10 @@
+i. Supplier
+ii. Total item along with total price
+iii. outgoing items from total item
+iv. how much items returned
+v. pasal A B C
+change order to request 
+
+
+
+report generate

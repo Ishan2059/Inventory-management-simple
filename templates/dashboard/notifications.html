@@ -1,0 +1,18 @@
+{% extends "partials/base.html" %}
+{% block title %} Home Page {% endblock %}
+
+{% block content %}
+    <h1>Notifications</h1>
+    <ul>
+        {% for notification in notifications %}
+            <li>
+                {{ notification.message }} 
+                {% if not notification.is_read %}
+                    <a href="{% url 'mark_notification_as_read' notification.id %}">Mark as Read</a>
+                {% endif %}
+            </li>
+        {% empty %}
+            <li>No notifications available.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

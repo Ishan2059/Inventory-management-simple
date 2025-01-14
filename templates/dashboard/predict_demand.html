@@ -1,0 +1,37 @@
+{% extends 'partials/base.html' %}
+
+{% block title %} Prediction Page {% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg border-light rounded">
+                <div class="card-body">
+
+                    <!-- Prediction Results -->
+                    <div id="predictionResults" class="mt-3">
+                        {% if prediction %}
+                            <div class="alert alert-success">
+                                <strong>Prediction Result:</strong> The total predicted quantity in this inventory system next month is
+                                <strong>{{ prediction|floatformat:2 }}</strong>.
+                            </div>
+                        {% else %}
+                            <div class="alert alert-warning">
+                                <strong>No prediction available yet.</strong>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Back Button -->
+                    <div class="mt-3">
+                        <a class="btn btn-secondary" href="{% url 'dashboard-product' %}" style="background-color: #2c3e50; color: white; border-radius: 5px; padding: 5px 12px;">
+                            Back to Dashboard
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
